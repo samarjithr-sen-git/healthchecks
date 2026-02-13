@@ -20,14 +20,8 @@ services:
       - hc_data:/data
     expose:
       - "8000"
-    healthcheck:  # ← ADD THIS BLOCK
+    healthcheck:
       disable: true
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.healthchecks.rule=Host(`kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io`)"
-      - "traefik.http.routers.healthchecks.entrypoints=websecure"
-      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
-      - "traefik.http.routers.healthchecks.service=healthchecks"
 
 volumes:
   hc_data:
