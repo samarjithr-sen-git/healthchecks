@@ -8,8 +8,8 @@ services:
       - DB_NAME=/data/hc.sqlite
       - DEBUG=False
       - SECRET_KEY=your-super-secret-key-change-me-1234567890abcdefghijklmnopqrstuvwxyz
-      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io/  # ← NEW DOMAIN
-      - ALLOWED_HOSTS=*,kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io,91.99.135.192
+      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io/
+      - ALLOWED_HOSTS=kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io,91.99.135.192
       - EMAIL_HOST=smtp.gmail.com
       - EMAIL_PORT=587
       - EMAIL_HOST_USER=samarjith.r@senatio.com
@@ -19,10 +19,12 @@ services:
     volumes:
       - hc_data:/data
     expose:
-      - "8000"  # CRITICAL
+      - "8000"
+    healthcheck:  # ← ADD THIS BLOCK
+      disable: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.healthchecks.rule=Host(`kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io`)"  # ← NEW DOMAIN
+      - "traefik.http.routers.healthchecks.rule=Host(`kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io`)"
       - "traefik.http.routers.healthchecks.entrypoints=websecure"
       - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
       - "traefik.http.routers.healthchecks.service=healthchecks"
