@@ -8,8 +8,8 @@ services:
       - DB_NAME=/data/hc.sqlite
       - DEBUG=False
       - SECRET_KEY=your-super-secret-key-change-me-1234567890abcdefghijklmnopqrstuvwxyz
-      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io  # ← NEW DOMAIN
-      - ALLOWED_HOSTS=*
+      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io/  # ← NEW DOMAIN
+      - ALLOWED_HOSTS=*,kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io,91.99.135.192
       - EMAIL_HOST=smtp.gmail.com
       - EMAIL_PORT=587
       - EMAIL_HOST_USER=samarjith.r@senatio.com
