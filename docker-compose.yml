@@ -8,23 +8,24 @@ services:
       - DB_NAME=/data/hc.sqlite
       - DEBUG=False
       - SECRET_KEY=your-super-secret-key-change-me-1234567890abcdefghijklmnopqrstuvwxyz
-      - SITE_ROOT=https://esso0s4skwcg8cksk4w04o44.91.99.135.192.sslip.io
+      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io  # ← NEW DOMAIN
       - ALLOWED_HOSTS=*
-      # ... your SMTP settings
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=samarjith.r@senatio.com
+      - EMAIL_HOST_PASSWORD=lealmjzlcpmyohsi
+      - EMAIL_USE_TLS=True
+      - DEFAULT_FROM_EMAIL=samarjith.r@senatio.com
     volumes:
       - hc_data:/data
-    # ❌ REMOVE these completely:
-    # container_name: healthchecks  
-    # ports:
-    #   - "8080:8000"
-    
-    # ✅ ADD these Traefik labels:
+    expose:
+      - "8000"  # CRITICAL
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.healthchecks.rule=Host(`esso0s4skwcg8cksk4w04o44.91.99.135.192.sslip.io`)
-      - traefik.http.routers.healthchecks.entrypoints=websecure
-      - traefik.http.routers.healthchecks.tls.certresolver=letsencrypt
-      - traefik.http.services.healthchecks.loadbalancer.server.port=8000
+      - "traefik.enable=true"
+      - "traefik.http.routers.healthchecks.rule=Host(`kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io`)"  # ← NEW DOMAIN
+      - "traefik.http.routers.healthchecks.entrypoints=websecure"
+      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
+      - "traefik.http.routers.healthchecks.service=healthchecks"
 
 volumes:
   hc_data:
