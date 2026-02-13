@@ -2,25 +2,29 @@ version: '3.8'
 services:
   healthchecks:
     image: healthchecks/healthchecks:latest
-    container_name: healthchecks
     restart: unless-stopped
     environment:
       - DB=sqlite
       - DB_NAME=/data/hc.sqlite
       - DEBUG=False
-      - SECRET_KEY=change-to-secure-key-here  # Generate: python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-      - SITE_ROOT=https://your-domain-or-subdomain.yourserver.com  # Use Coolify domain initially
-      - ALLOWED_HOSTS=*,your-domain.com  # * for flexibility; tighten later
-      - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_PORT=587
-      - EMAIL_HOST_USER=samarjith.r@senatio.com
-      - EMAIL_HOST_PASSWORD=lealmjzlcpmyohsi
-      - EMAIL_USE_TLS=True
-      - DEFAULT_FROM_EMAIL=samarjith.r@senatio.com
+      - SECRET_KEY=your-super-secret-key-change-me-1234567890abcdefghijklmnopqrstuvwxyz
+      - SITE_ROOT=https://esso0s4skwcg8cksk4w04o44.91.99.135.192.sslip.io
+      - ALLOWED_HOSTS=*
+      # ... your SMTP settings
     volumes:
       - hc_data:/data
-    expose:  # Optional: expose internally
-      - "8000"
+    # ❌ REMOVE these completely:
+    # container_name: healthchecks  
+    # ports:
+    #   - "8080:8000"
+    
+    # ✅ ADD these Traefik labels:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.healthchecks.rule=Host(`esso0s4skwcg8cksk4w04o44.91.99.135.192.sslip.io`)
+      - traefik.http.routers.healthchecks.entrypoints=websecure
+      - traefik.http.routers.healthchecks.tls.certresolver=letsencrypt
+      - traefik.http.services.healthchecks.loadbalancer.server.port=8000
 
 volumes:
   hc_data:
