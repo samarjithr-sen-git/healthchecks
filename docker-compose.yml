@@ -1,17 +1,17 @@
 version: '3.8'
 services:
   healthchecks:
-    image: 'healthchecks/healthchecks:latest'
+    image: healthchecks/healthchecks:latest
     restart: unless-stopped
     ports:
-      - '8000:8000'  # Direct port mapping
+      - '8000:8000'  # Direct IP access
     environment:
       - DB=sqlite
       - DB_NAME=/data/hc.sqlite
-      - DEBUG=False
+      - DEBUG=True
       - SECRET_KEY=your-super-secret-key-change-me-1234567890abcdefghijklmnopqrstuvwxyz
-      - SITE_ROOT=https://kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io/
-      - ALLOWED_HOSTS=kc8s8cc0gg08okws8g8044cw.91.99.135.192.sslip.io,91.99.135.192
+      - SITE_ROOT=http://91.99.135.192:8000/
+      - ALLOWED_HOSTS=91.99.135.192
       - EMAIL_HOST=smtp.gmail.com
       - EMAIL_PORT=587
       - EMAIL_HOST_USER=samarjith.r@senatio.com
@@ -19,6 +19,6 @@ services:
       - EMAIL_USE_TLS=True
       - DEFAULT_FROM_EMAIL=samarjith.r@senatio.com
     volumes:
-      - 'hc_data:/data'
+      - hc_data:/data
 volumes:
   hc_data: {}
