@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   healthchecks:
-    image: healthchecks/healthchecks:latest
+    image: 'healthchecks/healthchecks:latest'
     restart: unless-stopped
     environment:
       - DB=sqlite
@@ -17,11 +17,17 @@ services:
       - EMAIL_USE_TLS=True
       - DEFAULT_FROM_EMAIL=samarjith.r@senatio.com
     volumes:
-      - hc_data:/data
+      - 'hc_data:/data'
     expose:
-      - "8000"
+      - '8000'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
     healthcheck:
-      disable: true
-
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/ping/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 volumes:
-  hc_data:
+  hc_data: {}
