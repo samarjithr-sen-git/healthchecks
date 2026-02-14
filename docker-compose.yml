@@ -3,6 +3,8 @@ services:
   healthchecks:
     image: 'healthchecks/healthchecks:latest'
     restart: unless-stopped
+    ports:
+      - '8000:8000'  # Direct port mapping
     environment:
       - DB=sqlite
       - DB_NAME=/data/hc.sqlite
@@ -18,12 +20,5 @@ services:
       - DEFAULT_FROM_EMAIL=samarjith.r@senatio.com
     volumes:
       - 'hc_data:/data'
-    expose:
-      - '8000'
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
-    healthcheck:
-      disable: true
 volumes:
   hc_data: {}
